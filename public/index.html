@@ -3,9 +3,23 @@
   <head>
     <meta charset="utf-8">
     <title>WebRTC</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: space-around;
+      }
+    </style>
   </head>
   <body>
-    <pre><code id="pool"></code></pre>
-    <script src="/app.js"></script>
+    <div>
+      <input type="text" id="message"/>
+      <button onClick="pool.send(document.getElementById('message').value) || (document.getElementById('message').value = '')">Send</button>
+      <ul id="history">
+      </ul>
+    </div>
+    <div>
+      <pre><code id="pool"></code></pre>
+      <script src="/app.js"></script>
+    </div>
   </body>
 </html>

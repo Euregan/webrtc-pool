@@ -14,4 +14,18 @@ setInterval(() => {
       communication: pool.peers[key].communication.readyState
     }))
   }, null, 2)
-}, 500)
+}, 10)
+
+pool.listen(message => {
+  const historyNode = document.getElementById('history')
+  const itemNode = document.createElement('li')
+  itemNode.innerText = message
+  historyNode.prepend(itemNode)
+})
+
+document.getElementById('message').onkeyup = event => {
+  if (event.key === 'Enter') {
+    pool.send(document.getElementById('message').value)
+    document.getElementById('message').value = ''
+  }
+}

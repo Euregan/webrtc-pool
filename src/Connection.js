@@ -1,6 +1,7 @@
 class Connection {
   constructor(signaling, selfId, peerId, onShutdown, offerer) {
     this.connection = new RTCPeerConnection()
+    this.listeners = []
 
     // send any ice candidates to the other peer
     this.connection.onicecandidate = async ({candidate}) => {
@@ -40,7 +41,7 @@ class Connection {
     this.connection.ondatachannel = async ({channel}) => {
       console.log('data channel is created', channel)
       channel.onopen = () => console.log('data channel is open and ready to listen.')
-      channel.onmessage = ({data}) => console.log('message', data)
+      channel.onmessage = ({data}) => this.listeners.forEach(listener => listener(data))
       channel.onerror = console.error
     }
 
@@ -79,6 +80,10 @@ class Connection {
     this.communication = this.connection.createDataChannel('messaging')
     this.communication.onopen = () => console.log('channel is open and ready to send')
     this.communication.onerror = console.error
+  }
+
+  listen(listener) {
+    this.listeners.push(listener)
   }
 }
 
