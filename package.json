@@ -1,0 +1,25 @@
+{
+  "name": "webrtc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "uuid": "^7.0.3",
+    "webrtc-adapter": "^7.5.1",
+    "wrtc": "^0.4.4",
+    "ws": "^7.2.3",
+    "xstate": "^4.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
+}
