@@ -1,5 +1,5 @@
 class Connection {
-  constructor(signaling, selfId, peerId, offerer) {
+  constructor(signaling, selfId, peerId, onShutdown, offerer) {
     this.connection = new RTCPeerConnection()
 
     // send any ice candidates to the other peer
@@ -17,6 +17,7 @@ class Connection {
         console.log('online')
       } else if (this.connection.connectionState === 'disconnected' || this.connection.connectionState === 'failed') {
         console.log('shutting down')
+        onShutdown()
       }
     }
 
@@ -75,9 +76,9 @@ class Connection {
       }
     })
 
-    this.channel = this.connection.createDataChannel('messaging')
-    this.channel.onopen = () => console.log('channel is open and ready to send')
-    this.channel.onerror = console.error
+    this.communication = this.connection.createDataChannel('messaging')
+    this.communication.onopen = () => console.log('channel is open and ready to send')
+    this.communication.onerror = console.error
   }
 }
 

@@ -13,19 +13,29 @@ class Pool {
       switch(type) {
         case 'hello':
           if (!this.peers[id]) {
-            this.peers[id] = new Connection(this.signaling, this.uuid, id, true)
+            this.peers[id] = new Connection(this.signaling, this.uuid, id, () => this.deleteConnection(id), true)
             this.signaling.send({type: 'welcome', id: this.uuid})
           }
           break
         case 'welcome':
           if (!this.peers[id]) {
-            this.peers[id] = new Connection(this.signaling, this.uuid, id, false)
+            this.peers[id] = new Connection(this.signaling, this.uuid, id, () => this.deleteConnection(id), false)
           }
           break
       }
     })
 
     this.signaling.send({type: 'hello', id: this.uuid})
+  }
+
+  deleteConnection(id) {
+    delete this.peers[id]
+  }
+
+  send(message) {
+    Object.keys(this.peers)
+      .filter(id => this.peers[id].communication.readyState === 'open')
+      .forEach(id => this.peers[id].communication.send(message))
   }
 }
 
