@@ -1,4 +1,4 @@
-class Signaling {
+class Server {
   constructor(websocketUrl) {
     this.websocket = new WebSocket(websocketUrl)
     this.pendingMessages = []
@@ -24,6 +24,17 @@ class Signaling {
     this.listeners.push(listener)
   }
 
+  filter(id, peerId) {
+    return {
+      send: message => this.send({...message, sender: id, recipient: peerId}),
+      listen: listener => this.listen(message => {
+        if (message.recipient === id && message.sender === peerId) {
+          listener(message)
+        }
+      }),
+    }
+  }
+
   status() {
     switch(this.websocket.readyState) {
       case 0: return 'connecting'
@@ -34,4 +45,4 @@ class Signaling {
   }
 }
 
-export default Signaling
+export default Server

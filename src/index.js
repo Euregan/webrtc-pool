@@ -7,7 +7,7 @@ setInterval(() => {
   const poolNode = document.getElementById('pool')
   poolNode.innerText = JSON.stringify({
     id: pool.uuid,
-    signaling: pool.signaling.status(),
+    server: pool.server.status(),
     peers: Object.keys(pool.peers).map(key => ({
       id: key,
       status: pool.peers[key].connection.connectionState,

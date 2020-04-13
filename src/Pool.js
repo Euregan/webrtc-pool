@@ -1,34 +1,34 @@
 import { v4 as uuid } from 'uuid'
-import Signaling from './Signaling'
-import Connection from './Connection'
+import Server from './Server'
+import Peer from './Peer'
 
 
 class Pool {
   constructor(websocketSignalingUrl) {
     this.uuid = uuid()
-    this.signaling = new Signaling(websocketSignalingUrl)
+    this.server = new Server(websocketSignalingUrl)
     this.peers = {}
     this.listeners = []
 
-    this.signaling.listen(({type, id}) => {
+    this.server.listen(({type, id}) => {
       switch(type) {
         case 'hello':
           if (!this.peers[id]) {
-            this.peers[id] = new Connection(this.signaling, this.uuid, id, () => this.deleteConnection(id), true)
+            this.peers[id] = new Peer(this.server.filter(this.uuid, id), () => this.deleteConnection(id), true)
             this.listeners.forEach(listener => this.peers[id].listen(listener))
-            this.signaling.send({type: 'welcome', id: this.uuid})
+            this.server.send({type: 'welcome', id: this.uuid})
           }
           break
         case 'welcome':
           if (!this.peers[id]) {
-            this.peers[id] = new Connection(this.signaling, this.uuid, id, () => this.deleteConnection(id), false)
+            this.peers[id] = new Peer(this.server.filter(this.uuid, id), () => this.deleteConnection(id), false)
             this.listeners.forEach(listener => this.peers[id].listen(listener))
           }
           break
       }
     })
 
-    this.signaling.send({type: 'hello', id: this.uuid})
+    this.server.send({type: 'hello', id: this.uuid})
   }
 
   deleteConnection(id) {
