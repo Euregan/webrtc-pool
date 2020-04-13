@@ -14,14 +14,14 @@ class Pool {
       switch(type) {
         case 'hello':
           if (!this.peers[id]) {
-            this.peers[id] = new Peer(this.server.filter(this.uuid, id), () => this.deleteConnection(id), true)
+            this.peers[id] = new Peer(this.server.filter(this.uuid, id), () => this.deleteConnection(id), false)
             this.listeners.forEach(listener => this.peers[id].listen(listener))
             this.server.send({type: 'welcome', id: this.uuid})
           }
           break
         case 'welcome':
           if (!this.peers[id]) {
-            this.peers[id] = new Peer(this.server.filter(this.uuid, id), () => this.deleteConnection(id), false)
+            this.peers[id] = new Peer(this.server.filter(this.uuid, id), () => this.deleteConnection(id), true)
             this.listeners.forEach(listener => this.peers[id].listen(listener))
           }
           break
