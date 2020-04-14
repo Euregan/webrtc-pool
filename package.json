@@ -1,25 +1,23 @@
 {
   "name": "webrtc",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.1",
+  "description": "A simple pool to handle multiple WebRTC peer connections",
+  "main": "dist/app.js",
   "scripts": {
-    "build": "webpack",
-    "watch": "webpack --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --mode=production",
+    "watch": "webpack --mode=development --watch"
   },
-  "author": "",
+  "author": "Valentin Manceaux-Panot",
   "license": "ISC",
   "dependencies": {
     "uuid": "^7.0.3",
-    "webrtc-adapter": "^7.5.1",
-    "wrtc": "^0.4.4",
-    "ws": "^7.2.3",
-    "xstate": "^4.8.0"
+    "ws": "^7.2.3"
   },
   "devDependencies": {
+    "core-js": "^3.6.5",
     "nodemon": "^2.0.3",
     "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webrtc-adapter": "^7.5.1"
   }
 }

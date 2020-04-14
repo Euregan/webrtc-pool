@@ -1,6 +1,6 @@
 const http = require ('http')
-const WebSocket = require('ws')
 const fs = require('fs')
+const signaling = require('./server')
 
 
 const server = http.createServer((request, response) => {
@@ -36,21 +36,12 @@ const server = http.createServer((request, response) => {
   })
 })
 
-const wsServer = new WebSocket.Server({server}).on('connection', ws => {
-  ws.on('message', message => {
-    console.log(`received: ${message}`)
-    wsServer.clients.forEach(client => {
-      if (client !== ws/* && client.readyState === WebSocket.OPEN*/) {
-        client.send(message)
-      }
-    })
-  })
+signaling.start(server)
 
-  ws.on('close', () => {
-    console.log('Someone disconnected')
-  })
-
-  console.log('Someone connected')
+server.listen(8080, error => {
+  if (error) {
+    console.error(error)
+  } else {
+    console.log('server started on http://localhost:8080')
+  }
 })
-
-server.listen(8080)

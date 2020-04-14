@@ -1,5 +1,5 @@
 import 'webrtc-adapter'
-import Pool from './Pool'
+import { Pool } from './src/client/index.js'
 
 const pool = window.pool = new Pool('ws://localhost:8080')
 
