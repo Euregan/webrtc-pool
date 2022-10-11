@@ -1,3 +1,1 @@
-module.exports = {
-  start: require('./src/server/WebSocket')
-}
+export * from "dist/server";
